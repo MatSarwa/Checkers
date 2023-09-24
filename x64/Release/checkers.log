@@ -1,0 +1,19 @@
+﻿  Board.cpp
+  ComputerPlayer.cpp
+  GameOverState.cpp
+  GameState.cpp
+  HumanPlayer.cpp
+  Player.cpp
+  PlayingState.cpp
+  Square.cpp
+  main.cpp
+  Pawn.cpp
+  Piece.cpp
+  Queen.cpp
+  StartState.cpp
+  Trwa generowanie kodu
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\xyz89\OneDrive\Pulpit\checkers\checkers\checkers\Board.cpp(50): warning C4715: "Board::CheckGameOver”: niewszystkie ścieżki kodu zwracają wartość
+  All 212 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  checkers.vcxproj -> C:\Users\xyz89\OneDrive\Pulpit\checkers\checkers\x64\Release\checkers.exe
