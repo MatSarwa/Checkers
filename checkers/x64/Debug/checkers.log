@@ -1,13 +1,2 @@
-﻿  Board.cpp
-  ComputerPlayer.cpp
-  GameOverState.cpp
-  HumanPlayer.cpp
-  Player.cpp
-  Square.cpp
-  main.cpp
-  Pawn.cpp
-  Piece.cpp
-  Queen.cpp
-  StartState.cpp
-  Generowanie kodu...
+﻿  HumanPlayer.cpp
   checkers.vcxproj -> C:\Users\xyz89\OneDrive\Pulpit\Checkers - repozytorium\Checkers\x64\Debug\checkers.exe

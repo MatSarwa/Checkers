@@ -41,11 +41,9 @@ int HumanPlayer::convertCoordinate(char coordinate) {
  * @param isWhitePlayerTurn Whether it's the white player's turn.
  */
 void HumanPlayer::makeMove(Board& board, bool isWhitePlayerTurn) {
-    // Prompt the player for the starting and ending coordinates
-
-    // Check if any pawn or queen can make a capturing move
     int maxCapturingMoves = 0;
 
+    // Find the maximum number of capturing moves available
     for (int row = 0; row < 8; row++) {
         for (int col = 0; col < 8; col++) {
             Square* square = board.getSquare(row, col);
@@ -59,124 +57,124 @@ void HumanPlayer::makeMove(Board& board, bool isWhitePlayerTurn) {
     }
 
     std::cout << "Max possible capturing on board: " << maxCapturingMoves << std::endl;
-    int maxCapturingMovesForYourPawns = maxCapturingMoves;
-    bool canCapture = (maxCapturingMovesForYourPawns > 0);
+    bool canCapture = (maxCapturingMoves > 0);
 
-    int startYNumeric, startXNumeric, endYNumeric, endXNumeric;
-    char startY, startX, endY, endX;
+    int startYNumeric, startXNumeric;
 
-    std::cout << "Enter the starting position (x, y): ";
-    std::cin >> startX >> startY;
-    std::cout << "Enter the ending position (x, y): ";
-    std::cin >> endX >> endY;
+    // Loop until a valid piece is selected
+    while (true) {
+        char startY, startX;
+        std::cout << "Enter the starting position (x, y): ";
+        std::cin >> startX >> startY;
 
-    // Convert letter coordinates to numeric coordinates
-    startYNumeric = convertCoordinate(startY);
-    startXNumeric = convertCoordinate(startX);
-    endYNumeric = convertCoordinate(endY);
-    endXNumeric = convertCoordinate(endX);
+        // Convert letter coordinates to numeric coordinates
+        startYNumeric = convertCoordinate(startY);
+        startXNumeric = convertCoordinate(startX);
 
-    // Get the corresponding squares from the board
-    Square* startSquare = board.getSquare(startYNumeric, startXNumeric);
-    Square* endSquare = board.getSquare(endYNumeric, endXNumeric);
+        // Get the corresponding square from the board
+        Square* startSquare = board.getSquare(startYNumeric, startXNumeric);
+        Piece* piece = startSquare->getPiece();
 
-    // Check if the piece on the start square exists
-    Piece* piece = startSquare->getPiece();
-    if (piece == nullptr) {
-        throw std::runtime_error("Invalid move: No piece at the starting position.");
-    }
+        if (piece == nullptr) {
+            std::cout << "Invalid move: No piece at the starting position." << std::endl;
+            continue;
+        }
 
-    for (int row = 0; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-            Square* square = board.getSquare(row, col);
-            Piece* piece = square->getPiece();
+        if (piece->isWhite() != isWhitePlayerTurn) {
+            std::cout << "Invalid move: It's not your turn." << std::endl;
+            continue;
+        }
 
-            if (piece != nullptr && piece->isWhite() == isWhitePlayerTurn) {
-                int maxCapturing = piece->countCapturingMoves(board, *startSquare, isWhitePlayerTurn);
+        int maxCapturing = piece->countCapturingMoves(board, *startSquare, isWhitePlayerTurn);
+        if (canCapture && maxCapturing == 0) {
+            std::cout << "Invalid move: This piece cannot capture." << std::endl;
+            continue;
+        }
 
-                if (maxCapturing >= maxCapturingMovesForYourPawns && maxCapturing > 0) {
-                    canCapture = true;
-                    std::cout << "Possible capturing for selected " << piece->getType() << ": " << maxCapturing << std::endl;
-                }
+        if (maxCapturing > 0) {
+            std::cout << "Possible capturing for selected " << piece->getType() << ": " << maxCapturing << std::endl;
+        }
+
+        if (!canCapture) {
+            char endY, endX;
+            int endYNumeric, endXNumeric;
+
+            std::cout << "Enter the ending position (x, y): ";
+            std::cin >> endX >> endY;
+
+            endYNumeric = convertCoordinate(endY);
+            endXNumeric = convertCoordinate(endX);
+
+            Square* endSquare = board.getSquare(endYNumeric, endXNumeric);
+
+            // Check if the piece can move to the ending position
+            if (!piece->canMove(board, *startSquare, *endSquare, !isWhitePlayerTurn)) {
+                std::cout << "Invalid move: The piece cannot move to the ending position." << std::endl;
+                continue;
             }
-        }
-    }
 
-    // Check if the piece can move to the ending position
-    if (!canCapture) {
-        // Check if the piece can move to the ending position
-        if (!piece->canMove(board, *startSquare, *endSquare, !isWhitePlayerTurn)) {
-            throw std::runtime_error("Invalid move: The piece cannot move to the ending position.");
-        }
+            // Check for promotion to a queen
+            if (piece->getType() == "Pawn" && ((isWhitePlayerTurn && endYNumeric == 0) || (!isWhitePlayerTurn && endYNumeric == 7))) {
+                board.updateSquare(startYNumeric, startXNumeric, nullptr);
+                board.promoteQueen(endYNumeric, endXNumeric, piece);
+                return;
+            }
 
-        // Check for promotion to a queen
-        if (piece->getType() == "Pawn" && ((isWhitePlayerTurn && endYNumeric == 0) || (!isWhitePlayerTurn && endYNumeric == 7))) {
-            // Before promoting to a queen, remove the old pawn piece from the board
-            board.updateSquare(startYNumeric, startXNumeric, nullptr);
-
-            // Promote the pawn to a queen
-            board.promoteQueen(endYNumeric, endXNumeric, piece);
-
-            // Note: The board should already have the queen in the new position
+            // Move your piece to the end square (without capturing)
+            endSquare->SetPiece(piece);
+            startSquare->SetPiece(nullptr);
             return;
         }
+        else {
+            // Handle capturing moves
+            std::vector<Square*> capturedPawnPositions;
+            int capturingCount = 0;
+            Square* currentSquare = startSquare;
 
-        // Move your piece to the end square (without capturing)
-        endSquare->SetPiece(piece);
-        startSquare->SetPiece(nullptr);
-    }
+            while (capturingCount < maxCapturingMoves) {
+                char endY, endX;
+                int endYNumeric, endXNumeric;
 
-    if (piece->getType() == "Pawn" || piece->getType() == "Queen") {
-        Square* startSquarePawn = startSquare; // Save the starting square of the pawn
-        std::vector<Square*> capturedPawnPositions; // To store captured pawn squares
-        int capturingCount = 0; // Initialize a counter for capturing moves
+                std::cout << "Enter the ending position (x, y) for capture: ";
+                std::cin >> endX >> endY;
 
-        while (capturingCount < maxCapturingMovesForYourPawns) {
-            char startX1, startY1, endX1, endY1;
-            int startYNumeric1, startXNumeric1, endYNumeric1, endXNumeric1;
+                endYNumeric = convertCoordinate(endY);
+                endXNumeric = convertCoordinate(endX);
 
-            std::cout << "Enter the starting position (x, y): ";
-            std::cin >> startX1 >> startY1;
-            std::cout << "Enter the ending position (x, y): ";
-            std::cin >> endX1 >> endY1;
+                Square* endSquare = board.getSquare(endYNumeric, endXNumeric);
 
-            startYNumeric1 = convertCoordinate(startY1);
-            startXNumeric1 = convertCoordinate(startX1);
-            endYNumeric1 = convertCoordinate(endY1);
-            endXNumeric1 = convertCoordinate(endX1);
-
-            Square* startSquare1 = board.getSquare(startYNumeric1, startXNumeric1);
-            Square* endSquare1 = board.getSquare(endYNumeric1, endXNumeric1);
-
-            // Check if the pawn is moving from its starting square
-            if (startSquare1 != startSquarePawn) {
-                throw std::runtime_error("Invalid move: This pawn must start its capturing moves from its original square.");
-            }
-
-            if (piece->getType() == "Pawn") {
-                Pawn* pawn = static_cast<Pawn*>(piece);
-                if (pawn->simulateAndValidateCapturingMoves(board, *startSquare1, isWhitePlayerTurn, capturedPawnPositions, maxCapturingMovesForYourPawns, *endSquare1, piece)) {
-                    // Increment the capturing move count
-                    capturingCount++;
-
-                    // Update the starting square of the pawn for the next capturing move
-                    startSquarePawn = endSquare1;
-                }
-                else {
-                    // If the function returns false, restore captured enemy pawns to the board
-                    for (const auto& square : capturedPawnPositions) {
-                        square->SetPiece(new Pawn(!isWhitePlayerTurn)); // Create a new enemy pawn and place it back on the board
+                if (piece->getType() == "Pawn") {
+                    Pawn* pawn = static_cast<Pawn*>(piece);
+                    if (pawn->simulateAndValidateCapturingMoves(board, *currentSquare, isWhitePlayerTurn, capturedPawnPositions, maxCapturingMoves, *endSquare, piece)) {
+                        capturingCount++;
+                        currentSquare = endSquare; // Update current square to new position after capturing
+                        // If there are more captures possible, continue; otherwise, break
+                        if (capturingCount >= maxCapturingMoves || piece->countCapturingMoves(board, *currentSquare, isWhitePlayerTurn) == 0) {
+                            break;
+                        }
                     }
-                    capturedPawnPositions.clear(); // Clear the vector
-                    startSquare->SetPiece(new Pawn(isWhitePlayerTurn));
+                    else {
+                        // If the function returns false, restore captured enemy pawns to the board
+                        for (const auto& square : capturedPawnPositions) {
+                            square->SetPiece(new Pawn(!isWhitePlayerTurn)); // Create a new enemy pawn and place it back on the board
+                        }
+                        capturedPawnPositions.clear();
+                        startSquare->SetPiece(new Pawn(isWhitePlayerTurn));
 
-                    // Prompt the player to re-input values
-                    std::cout << "Invalid move: The piece cannot move to the ending position." << std::endl;
+                        std::cout << "Invalid move: The piece cannot move to the ending position." << std::endl;
+                        break;
+                    }
                 }
             }
+            return;
         }
     }
 }
+
+
+
+
+
 
 
 

@@ -45,7 +45,7 @@ int main() {
 
             try {
                 auto startTime = std::chrono::high_resolution_clock::now();
-                currentPlayer->makeMove(board, isWhitePlayerTurn);
+                    currentPlayer->makeMove(board, isWhitePlayerTurn);
                 auto endTime = std::chrono::high_resolution_clock::now();
                 auto moveTime = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime);
 

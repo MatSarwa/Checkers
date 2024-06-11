@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{332D6DD6-F367-48E0-8DED-240BCB0F0A9F}|checkers.vcxproj|C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\HumanPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{332D6DD6-F367-48E0-8DED-240BCB0F0A9F}|checkers.vcxproj|solutionrelative:HumanPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{332D6DD6-F367-48E0-8DED-240BCB0F0A9F}|checkers.vcxproj|C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{332D6DD6-F367-48E0-8DED-240BCB0F0A9F}|checkers.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HumanPlayer.cpp",
+              "DocumentMoniker": "C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\HumanPlayer.cpp",
+              "RelativeDocumentMoniker": "HumanPlayer.cpp",
+              "ToolTip": "C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\HumanPlayer.cpp",
+              "RelativeToolTip": "HumanPlayer.cpp",
+              "ViewState": "AQIAAHAAAAAAAAAAAAAwwHUAAABKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-06-11T06:32:28.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "C:\\Users\\xyz89\\OneDrive\\Pulpit\\Checkers - repozytorium\\Checkers\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AQIAABcAAAAAAAAAAAAlwC8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-06-10T19:47:12.103Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
